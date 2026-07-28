@@ -117,17 +117,36 @@ Other apps in this space do use models and charge a subscription to cover the
 bill. That is a fair trade for anyone who wants it. This one made the opposite
 choice, which is also why it is free: there is no cost to pass on.
 
+## Live
+
+**https://derekablackburn.com/unblended/**
+
+Add it to your home screen and it runs like an app, offline included.
+
 ## Deploying it
 
 Static files, so anything that serves a directory will do. For **GitHub Pages**:
 
-1. Create a public repo and push.
-2. Settings, Pages, Source: deploy from branch, `main`, `/ (root)`.
-3. It lands at `https://<user>.github.io/<repo>/`.
+```sh
+gh repo create <name> --public --source=. --remote=origin --push
+gh api -X POST repos/<user>/<name>/pages -f "source[branch]=main" -f "source[path]=/"
+gh api -X PUT  repos/<user>/<name>/pages -F "https_enforced=true"
+```
 
 Every path in the app is relative and the manifest uses `"start_url": "./"`, so
 it works from a subdirectory with no changes. `.nojekyll` is committed so Pages
 serves the files as-is.
+
+> **Do not skip the third command.** Pages does not enforce HTTPS by default, and
+> without it two things break: service workers require a secure context, so
+> offline and install both die silently, and an HTTP page can be modified in
+> transit. For an app whose entire privacy model is "your writing never leaves
+> the device", a script injected over plain HTTP could read localStorage and send
+> it anywhere. Check with:
+>
+> ```sh
+> gh api repos/<user>/<name>/pages --jq .https_enforced
+> ```
 
 **On any change to the shell**, bump `CACHE` in `sw.js`. Miss that and installed
 copies keep serving the old version indefinitely.
