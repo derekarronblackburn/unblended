@@ -82,6 +82,19 @@ const JOBS = [
     blurb: 'Perfectly fine. It often becomes obvious after you have met it a few times.' }
 ];
 
+// Definitions go above the picker: you read what the three mean, then choose.
+const jobKey = k => JOBS.find(j => j.key === k);
+const jobLegend = () => `
+  <dl class="legend">
+    ${JOBS.filter(j => j.key !== 'unsure').map(j =>
+      `<dt>${j.name}</dt><dd>${j.blurb}</dd>`).join('')}
+  </dl>`;
+
+const exileNote = `
+  <div class="note warn">
+    <p>Good to know, and worth being careful with. Exiles are where this work goes deep, and it is much better done with a therapist alongside you. The prompts here will keep working with the protectors around it.</p>
+  </div>`;
+
 const FEELINGS_OPEN = ['Curious', 'Warm toward it', 'Calm, neutral'];
 const FEELINGS_BLENDED = ['Irritated by it', 'Afraid of it', 'I want it gone'];
 
@@ -402,16 +415,14 @@ function renderNaming(host) {
     </label>
 
     <div class="field">
-      <span class="label">What is its job?</span>
+      <span class="label">Every part is doing one of three jobs</span>
+      ${jobLegend()}
+      <span class="label" style="margin-top:.9rem">Which is this one?</span>
       <div class="chips" id="jobRow">
         ${JOBS.map(j => `<button class="chip ${j.key === chosen ? 'on' : ''}" data-job="${j.key}">${j.name}</button>`).join('')}
       </div>
-      ${chosen ? `<p class="muted sm" style="margin-top:.5rem">${JOBS.find(j => j.key === chosen).blurb}</p>` : `
-        <p class="muted sm" style="margin-top:.5rem">Managers run ahead of trouble. Firefighters clean up after it. Exiles carry what both are working around.</p>`}
-      ${chosen === 'exile' ? `
-        <div class="note warn">
-          <p>Good to know, and worth being careful with. Exiles are where this work goes deep, and it is the part that is much better done with a therapist alongside you. The prompts here will keep working with the protectors around it.</p>
-        </div>` : ''}
+      ${chosen === 'exile' ? exileNote : ''}
+      ${chosen === 'unsure' ? `<p class="muted sm" style="margin-top:.5rem">${jobKey('unsure').blurb}</p>` : ''}
     </div>
 
     <p class="muted sm">Saved to your Parts list, so next time it shows up you recognise it instead of becoming it.</p>`;
@@ -536,6 +547,7 @@ function finishSession(partial) {
 
   const drop = session.sevBefore && session.sevAfter ? session.sevBefore - session.sevAfter : 0;
   session = null;
+  calMonth = null; dayFilter = null;   // land on this month so the new entry is visible
   toast(drop > 0 ? `Saved. ${SEVERITY[entry.sevBefore - 1]} to ${SEVERITY[entry.sevAfter - 1]}.`
                  : partial ? 'Saved where you got to.' : 'Saved.');
   renderJournal(); renderParts();
@@ -600,14 +612,13 @@ function editPart(id) {
 }
 
 function renderJobPicker() {
-  $('#pJob').innerHTML = `<div class="chips" id="pJobRow">
-    ${JOBS.map(j => `<button class="chip ${j.key === editJob ? 'on' : ''}" data-pjob="${j.key}">${j.name}</button>`).join('')}
-  </div>`;
-  const j = JOBS.find(x => x.key === editJob);
-  $('#pJobNote').innerHTML = j
-    ? `<p class="muted sm" style="margin-top:.5rem">${j.blurb}</p>
-       ${editJob === 'exile' ? `<div class="note warn"><p>Exiles are where this work goes deep, and it is much better done with a therapist alongside you.</p></div>` : ''}`
-    : '';
+  $('#pJob').innerHTML = `
+    ${jobLegend()}
+    <div class="chips" id="pJobRow" style="margin-top:.7rem">
+      ${JOBS.map(j => `<button class="chip ${j.key === editJob ? 'on' : ''}" data-pjob="${j.key}">${j.name}</button>`).join('')}
+    </div>`;
+  $('#pJobNote').innerHTML = editJob === 'exile' ? exileNote
+    : editJob === 'unsure' ? `<p class="muted sm" style="margin-top:.5rem">${jobKey('unsure').blurb}</p>` : '';
   $$('#pJobRow [data-pjob]').forEach(b => b.onclick = () => {
     editJob = editJob === b.dataset.pjob ? '' : b.dataset.pjob;
     renderJobPicker();
@@ -630,6 +641,80 @@ function savePart() {
 }
 
 /* ------------------------------------------------------------------ journal */
+
+/* ---- calendar ---- */
+
+let calMonth = null;    // Date pinned to the 1st of the displayed month
+let dayFilter = null;   // 'y-m-d' key, or null for everything
+
+const dayKey = ts => { const d = new Date(ts); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; };
+const WD = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+function renderCalendar() {
+  const host = $('#calendar');
+  if (!db.entries.length) { host.innerHTML = ''; return; }
+
+  const now = new Date();
+  if (!calMonth) calMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+
+  const buckets = {};
+  db.entries.forEach(e => {
+    const d = new Date(e.created);
+    if (d.getFullYear() === y && d.getMonth() === m) {
+      (buckets[d.getDate()] = buckets[d.getDate()] || []).push(e);
+    }
+  });
+
+  const oldest = new Date(Math.min(...db.entries.map(e => e.created)));
+  const atOldest = y === oldest.getFullYear() && m === oldest.getMonth();
+  const atNewest = y === now.getFullYear() && m === now.getMonth();
+
+  const lead = new Date(y, m, 1).getDay();
+  const days = new Date(y, m + 1, 0).getDate();
+
+  const cell = dn => {
+    const es = buckets[dn] || [];
+    const key = `${y}-${m}-${dn}`;
+    const isToday = dn === now.getDate() && atNewest;
+    // A dot per entry, sage when that session brought the volume down.
+    const dots = es.slice(0, 4).map(e =>
+      `<i class="dot ${e.sevBefore && e.sevAfter && e.sevAfter < e.sevBefore ? 'down' : ''}"></i>`).join('');
+    return `<button class="cal-day ${es.length ? 'has' : ''} ${isToday ? 'today' : ''} ${dayFilter === key ? 'sel' : ''}"
+              ${es.length ? `data-day="${key}"` : 'disabled'}
+              aria-label="${dn}${es.length ? `, ${es.length} session${es.length > 1 ? 's' : ''}` : ''}">
+              <span class="num">${dn}</span>
+              <span class="dots">${dots}${es.length > 4 ? `<span class="more">+${es.length - 4}</span>` : ''}</span>
+            </button>`;
+  };
+
+  host.innerHTML = `
+    <div class="cal">
+      <div class="cal-head">
+        <button class="cal-nav" id="calPrev" ${atOldest ? 'disabled' : ''} aria-label="Previous month">
+          <svg class="ico"><use href="#i-back"/></svg></button>
+        <span class="cal-title">${calMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</span>
+        <button class="cal-nav" id="calNext" ${atNewest ? 'disabled' : ''} aria-label="Next month">
+          <svg class="ico"><use href="#i-next"/></svg></button>
+      </div>
+      <div class="cal-grid">
+        ${WD.map(d => `<span class="cal-wd">${d}</span>`).join('')}
+        ${Array.from({ length: lead }, () => '<span class="cal-day empty"></span>').join('')}
+        ${Array.from({ length: days }, (_, i) => cell(i + 1)).join('')}
+      </div>
+      <div class="cal-key">
+        <span><i class="dot down"></i> volume dropped</span>
+        <span><i class="dot"></i> other</span>
+      </div>
+    </div>`;
+
+  $('#calPrev').onclick = () => { calMonth = new Date(y, m - 1, 1); renderJournal(); };
+  $('#calNext').onclick = () => { calMonth = new Date(y, m + 1, 1); renderJournal(); };
+  $$('[data-day]', host).forEach(b => b.onclick = () => {
+    dayFilter = dayFilter === b.dataset.day ? null : b.dataset.day;
+    renderJournal();
+  });
+}
 
 function renderPatterns() {
   const host = $('#patterns');
@@ -660,19 +745,31 @@ function renderPatterns() {
 }
 
 function renderJournal() {
+  renderCalendar();
   renderPatterns();
   const host = $('#journalList');
   if (!db.entries.length) {
     host.innerHTML = `<div class="empty">Nothing here yet.<br>Finished sessions land here so you can look back.</div>`;
     return;
   }
-  host.innerHTML = db.entries.map(e => `
+
+  const list = dayFilter ? db.entries.filter(e => dayKey(e.created) === dayFilter) : db.entries;
+  const bar = dayFilter ? `
+    <div class="filterbar">
+      <span>${new Date(list[0] ? list[0].created : Date.now()).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+      <button class="btn sm ghost" id="clearFilter">Show all</button>
+    </div>` : '';
+
+  host.innerHTML = bar + list.map(e => `
     <div class="card tap" data-entry="${e.id}">
       <h4>${escapeHtml(e.title || titleFor(e))} ${jobPill(e.job)}</h4>
       <p class="meta">${when(e.created)}${e.quick ? ' - short' : ''}${e.partial ? ' - stopped early' : ''}</p>
       ${e.sevBefore ? `<p class="sm"><span class="pill ${e.sevAfter && e.sevAfter < e.sevBefore ? '' : 'clay'}">${SEVERITY[e.sevBefore - 1]}${e.sevAfter ? ' to ' + SEVERITY[e.sevAfter - 1] : ''}</span></p>` : ''}
       ${e.answers.fear ? `<p class="sm muted">${escapeHtml(trim(e.answers.fear, 90))}</p>` : ''}
     </div>`).join('');
+
+  const clear = $('#clearFilter');
+  if (clear) clear.onclick = () => { dayFilter = null; renderJournal(); };
   $$('[data-entry]', host).forEach(el => el.onclick = () => openEntry(el.dataset.entry, 'journal'));
 }
 
@@ -702,6 +799,7 @@ function openEntry(id, back) {
   $('#delEntry').onclick = () => {
     if (!confirm('Delete this entry? It cannot be recovered.')) return;
     db.entries = db.entries.filter(x => x.id !== id);
+    if (!db.entries.some(e => dayKey(e.created) === dayFilter)) dayFilter = null;
     save(); renderJournal(); renderParts(); show('journal'); toast('Deleted.');
   };
   show('entry', { back: back || 'journal', title: 'Entry' });
