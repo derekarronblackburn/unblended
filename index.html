@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191614" media="(prefers-color-scheme: dark)">
+<meta name="description" content="A quiet, private walkthrough for Internal Family Systems unblending. Everything stays on your device.">
+<title>Unblended</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-unblend" viewBox="0 0 24 24"><circle cx="9" cy="12" r="5.5"/><circle cx="17" cy="12" r="3"/></symbol>
+  <symbol id="i-parts" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2"/><circle cx="6.5" cy="16" r="3.2"/><circle cx="17.5" cy="16" r="3.2"/></symbol>
+  <symbol id="i-journal" viewBox="0 0 24 24"><path d="M5 4.5h11a2 2 0 0 1 2 2v13H7a2 2 0 0 1-2-2z"/><path d="M18 19.5H7a2 2 0 0 0 0 4h11"/><path d="M9 9h6M9 12.5h6"/></symbol>
+  <symbol id="i-learn" viewBox="0 0 24 24"><path d="M12 3.5a5.5 5.5 0 0 0-3.2 9.98c.5.36.8.93.8 1.55v.47h4.8v-.47c0-.62.3-1.19.8-1.55A5.5 5.5 0 0 0 12 3.5Z"/><path d="M10.2 19h3.6M10.6 21.2h2.8"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9.5 5.5 16 12l-6.5 6.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8a1.3 1.3 0 0 1 1.3-1.3h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7"/><path d="M6.8 6.5 7.7 20a1.5 1.5 0 0 0 1.5 1.4h5.6a1.5 1.5 0 0 0 1.5-1.4l.9-13.5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8 12 3.5 16.5 8"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4M18.7 18.7l-1.4-1.4M6.7 6.7 5.3 5.3"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 9.8 17 19 6.5"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4.5 8 4.5 14.5A5.5 5.5 0 0 0 10 20C16.5 20 20 14 20 4Z"/><path d="M16 8 7 17"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M16.5 3.9a2 2 0 0 1 2.8 2.8L8 18l-4 1.2L5.2 15Z"/></symbol>
+</svg>
+
+<div class="app">
+
+  <header class="topbar">
+    <button class="icon-btn" id="backBtn" hidden aria-label="Back"><svg class="ico"><use href="#i-back"/></svg></button>
+    <h1 class="wordmark" id="title">Unblended</h1>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch theme"><svg class="ico"><use href="#i-moon"/></svg></button>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ UNBLEND ============ -->
+    <section class="view" id="view-unblend">
+      <div class="pad">
+        <p class="lede">Something is loud right now. Let's make a little room around it.</p>
+        <p class="muted sm">Six steps, a few minutes. You can stop anywhere, and nothing leaves this phone.</p>
+        <button class="btn primary big" id="startSession">
+          <svg class="ico"><use href="#i-leaf"/></svg> Begin
+        </button>
+        <div class="card soft" id="resumeCard" hidden>
+          <p class="sm"><strong>You left a session open.</strong></p>
+          <div class="row">
+            <button class="btn" id="resumeBtn">Pick it back up</button>
+            <button class="btn ghost" id="discardBtn">Start fresh</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SESSION ============ -->
+    <section class="view" id="view-session">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+      <div class="pad">
+        <p class="step-kicker" id="stepKicker"></p>
+        <h2 class="step-title" id="stepTitle"></h2>
+        <p class="step-body" id="stepBody"></p>
+
+        <div id="stepExtra"></div>
+
+        <label class="field">
+          <span class="label" id="stepLabel"></span>
+          <textarea id="stepInput" rows="4" placeholder=""></textarea>
+        </label>
+
+        <div class="nav-row">
+          <button class="btn ghost" id="prevStep">Back</button>
+          <button class="btn primary" id="nextStep">Next <svg class="ico"><use href="#i-next"/></svg></button>
+        </div>
+        <button class="btn ghost wide sm" id="bailStep">Save and stop here</button>
+      </div>
+    </section>
+
+    <!-- ============ BREATH ============ -->
+    <section class="view" id="view-breath">
+      <div class="pad center">
+        <p class="step-kicker">Arriving</p>
+        <h2 class="step-title">Follow the circle</h2>
+        <div class="breath-wrap">
+          <div class="breath" id="breathCircle"><span id="breathWord">In</span></div>
+        </div>
+        <p class="muted sm">Lean into the exhale. It is the part of the breath that talks to your nervous system.</p>
+        <p class="counter" id="breathCount">Round 1 of 4</p>
+        <button class="btn ghost wide" id="skipBreath">Skip this</button>
+      </div>
+    </section>
+
+    <!-- ============ PARTS ============ -->
+    <section class="view" id="view-parts">
+      <div class="pad">
+        <p class="muted sm">The ones you have met. Naming a part is most of the work; next time it shows up, you recognise it instead of becoming it.</p>
+        <div id="partsList"></div>
+        <button class="btn wide" id="addPart"><svg class="ico"><use href="#i-plus"/></svg> Add a part</button>
+      </div>
+    </section>
+
+    <!-- ============ PART EDITOR ============ -->
+    <section class="view" id="view-part-edit">
+      <div class="pad">
+        <label class="field"><span class="label">What do you call it?</span>
+          <input id="pName" type="text" placeholder="The Achiever, The Wall, the one that goes quiet"></label>
+        <label class="field"><span class="label">What is it protecting you from?</span>
+          <textarea id="pProtects" rows="2" placeholder="Every part is protecting something, even the ones you dislike"></textarea></label>
+        <label class="field"><span class="label">When does it show up?</span>
+          <textarea id="pTrigger" rows="2" placeholder="The situation, the tone, the room"></textarea></label>
+        <label class="field"><span class="label">How do you know it is here?</span>
+          <textarea id="pCue" rows="2" placeholder="The signal in your body, or the sentence you catch yourself saying"></textarea></label>
+        <div class="nav-row">
+          <button class="btn ghost" id="cancelPart">Cancel</button>
+          <button class="btn primary" id="savePart"><svg class="ico"><use href="#i-check"/></svg> Save</button>
+        </div>
+        <button class="btn ghost wide danger sm" id="deletePart" hidden><svg class="ico"><use href="#i-trash"/></svg> Delete this part</button>
+      </div>
+    </section>
+
+    <!-- ============ JOURNAL ============ -->
+    <section class="view" id="view-journal">
+      <div class="pad">
+        <div id="journalList"></div>
+        <div class="card soft" id="dataCard">
+          <p class="sm"><strong>Your entries live on this device only.</strong> Clearing your browser data will erase them, so take a copy now and then.</p>
+          <div class="row">
+            <button class="btn sm" id="exportBtn"><svg class="ico"><use href="#i-download"/></svg> Export</button>
+            <button class="btn sm" id="importBtn"><svg class="ico"><use href="#i-upload"/></svg> Import</button>
+            <input type="file" id="importFile" accept="application/json" hidden>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ENTRY DETAIL ============ -->
+    <section class="view" id="view-entry">
+      <div class="pad" id="entryBody"></div>
+    </section>
+
+    <!-- ============ LEARN ============ -->
+    <section class="view" id="view-learn">
+      <div class="pad" id="learnBody"></div>
+    </section>
+
+  </main>
+
+  <nav class="tabbar" id="tabbar">
+    <button class="tab is-active" data-tab="unblend"><svg class="ico"><use href="#i-unblend"/></svg><span>Unblend</span></button>
+    <button class="tab" data-tab="parts"><svg class="ico"><use href="#i-parts"/></svg><span>Parts</span></button>
+    <button class="tab" data-tab="journal"><svg class="ico"><use href="#i-journal"/></svg><span>Journal</span></button>
+    <button class="tab" data-tab="learn"><svg class="ico"><use href="#i-learn"/></svg><span>Learn</span></button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
