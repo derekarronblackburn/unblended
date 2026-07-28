@@ -187,6 +187,8 @@ p { margin: 0 0 .8rem; }
 
 /* ---------- fields ---------- */
 .field { display: block; margin: 1rem 0 0; }
+/* .field sets display, which outranks the UA [hidden] rule. Restore it. */
+.field[hidden] { display: none; }
 .label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink-soft); margin-bottom: .35rem; }
 input[type="text"], textarea {
   width: 100%;
@@ -290,5 +292,56 @@ input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 
 .qa .qa-body { padding: 0 .2rem 1rem; color: var(--ink-soft); font-size: .94rem; }
 .qa .qa-body strong { color: var(--ink); }
 
+/* ---------- chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip {
+  min-height: 2.5rem; padding: 0 .8rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink);
+  font: inherit; font-size: .85rem; font-weight: 550;
+  cursor: pointer; transition: transform .12s, background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip:active { transform: scale(.97); }
+.chip.on { background: var(--sage); color: var(--accent-in); border-color: transparent; }
+.chip.on.warn { background: var(--accent); }
+
+/* ---------- severity scale ---------- */
+.scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; margin: .2rem 0 .1rem; }
+.lvl {
+  min-height: 3rem;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); color: var(--ink-soft);
+  font: inherit; font-size: 1.05rem; font-weight: 650;
+  cursor: pointer; transition: transform .12s, background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.lvl:active { transform: scale(.96); }
+.lvl.on { background: var(--accent); color: var(--accent-in); border-color: transparent; }
+.scale-word {
+  text-align: center; font-size: .9rem; font-weight: 600;
+  color: var(--accent); min-height: 1.4em; margin: .1rem 0 .4rem;
+}
+
+/* ---------- maintenance rows ---------- */
+.mrow { margin: .7rem 0; }
+.mlabel {
+  display: block; font-size: .8rem; font-weight: 650;
+  color: var(--ink-faint); letter-spacing: .05em; text-transform: uppercase;
+  margin-bottom: .3rem;
+}
+
+/* ---------- disclaimer ---------- */
+.disclaimer {
+  margin-top: 2rem; text-align: center;
+  font-size: .8rem; line-height: 1.5; color: var(--ink-faint);
+}
+.linky {
+  border: 0; background: none; padding: 0; cursor: pointer;
+  font: inherit; font-size: inherit; color: var(--accent);
+  text-decoration: underline; text-underline-offset: 2px;
+}
+
+.card.slim { padding: .7rem .85rem; margin: .5rem 0; }
 .entry-answer { white-space: pre-wrap; }
 .foot { color: var(--ink-faint); font-size: .78rem; text-align: center; margin-top: 2rem; }

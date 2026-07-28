@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#191614" media="(prefers-color-scheme: dark)">
-<meta name="description" content="A quiet, private walkthrough for Internal Family Systems unblending. Everything stays on your device.">
+<meta name="description" content="A quiet, private walkthrough for Internal Family Systems unblending. A tool for the moment, not a replacement for therapy. Everything stays on your device.">
 <title>Unblended</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -29,7 +29,8 @@
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2Z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 9.8 17 19 6.5"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4.5 8 4.5 14.5A5.5 5.5 0 0 0 10 20C16.5 20 20 14 20 4Z"/><path d="M16 8 7 17"/></symbol>
-  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M16.5 3.9a2 2 0 0 1 2.8 2.8L8 18l-4 1.2L5.2 15Z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 2.5 4.5 13.5h6L10 21.5l9.5-11.5h-6.5z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.8 4.8 5.6v6.1c0 4.4 3 8.1 7.2 9.5 4.2-1.4 7.2-5.1 7.2-9.5V5.6z"/></symbol>
 </svg>
 
 <div class="app">
@@ -42,20 +43,63 @@
 
   <main id="main">
 
-    <!-- ============ UNBLEND ============ -->
+    <!-- ============ FIRST RUN ============ -->
+    <section class="view" id="view-intro">
+      <div class="pad">
+        <p class="lede">A tool for the moment you are in.</p>
+        <p>When a part of you has taken the wheel, the steps for getting some room are simple and almost impossible to recall. This app holds them for you so you do not have to.</p>
+
+        <div class="note warn">
+          <p><strong>This is not a replacement for therapy.</strong> It is a tool for handling a hard moment and understanding yourself a little better between sessions. It cannot know your history, notice what you are avoiding, or be there when something opens up. A good therapist does all three.</p>
+          <p>If you are in danger or thinking about harming yourself, contact your local emergency number, or in the US call or text <strong>988</strong>.</p>
+        </div>
+
+        <p class="muted sm">Everything you write stays in this browser. No account, no upload, no analytics.</p>
+        <button class="btn primary big" id="introOk">I understand, let's start</button>
+      </div>
+    </section>
+
+    <!-- ============ HOME ============ -->
     <section class="view" id="view-unblend">
       <div class="pad">
         <p class="lede">Something is loud right now. Let's make a little room around it.</p>
-        <p class="muted sm">Six steps, a few minutes. You can stop anywhere, and nothing leaves this phone.</p>
         <button class="btn primary big" id="startSession">
           <svg class="ico"><use href="#i-leaf"/></svg> Begin
         </button>
+        <button class="btn wide" id="startQuick">
+          <svg class="ico"><use href="#i-bolt"/></svg> Short version, about two minutes
+        </button>
+        <p class="muted sm center" style="margin-top:.7rem">Six steps or four. You can stop anywhere, and nothing leaves this phone.</p>
+
         <div class="card soft" id="resumeCard" hidden>
           <p class="sm"><strong>You left a session open.</strong></p>
           <div class="row">
             <button class="btn" id="resumeBtn">Pick it back up</button>
             <button class="btn ghost" id="discardBtn">Start fresh</button>
           </div>
+        </div>
+
+        <p class="disclaimer">A tool for the moment, not a replacement for therapy. <button class="linky" id="whyLink">Why that matters</button></p>
+      </div>
+    </section>
+
+    <!-- ============ CHECK IN ============ -->
+    <section class="view" id="view-checkin">
+      <div class="pad">
+        <p class="step-kicker">Before we start</p>
+        <h2 class="step-title">How loud is it right now?</h2>
+        <p class="step-body">No wrong answer. This is only so you can see what changes by the end.</p>
+        <div class="scale" id="sevBefore"></div>
+        <p class="scale-word" id="sevBeforeWord">&nbsp;</p>
+
+        <h3>How have the basics been? (optional)</h3>
+        <p class="muted sm">Not a lecture. Sleep, food and movement change how loud everything else gets, and it helps to know that before you conclude something about yourself.</p>
+        <div id="maintenance"></div>
+        <div id="maintenanceNote"></div>
+
+        <div class="nav-row">
+          <button class="btn ghost" id="checkinSkip">Skip</button>
+          <button class="btn primary" id="checkinNext">Next <svg class="ico"><use href="#i-next"/></svg></button>
         </div>
       </div>
     </section>
@@ -67,13 +111,14 @@
         <p class="step-kicker" id="stepKicker"></p>
         <h2 class="step-title" id="stepTitle"></h2>
         <p class="step-body" id="stepBody"></p>
+        <div id="stepExtraTop"></div>
 
-        <div id="stepExtra"></div>
-
-        <label class="field">
+        <label class="field" id="stepField">
           <span class="label" id="stepLabel"></span>
           <textarea id="stepInput" rows="4" placeholder=""></textarea>
         </label>
+
+        <div id="stepExtra"></div>
 
         <div class="nav-row">
           <button class="btn ghost" id="prevStep">Back</button>
@@ -100,7 +145,7 @@
     <!-- ============ PARTS ============ -->
     <section class="view" id="view-parts">
       <div class="pad">
-        <p class="muted sm">The ones you have met. Naming a part is most of the work; next time it shows up, you recognise it instead of becoming it.</p>
+        <p class="muted sm">The ones you have met. Naming a part is most of the work; next time it shows up you recognise it instead of becoming it.</p>
         <div id="partsList"></div>
         <button class="btn wide" id="addPart"><svg class="ico"><use href="#i-plus"/></svg> Add a part</button>
       </div>
@@ -111,12 +156,22 @@
       <div class="pad">
         <label class="field"><span class="label">What do you call it?</span>
           <input id="pName" type="text" placeholder="The Achiever, The Wall, the one that goes quiet"></label>
+
+        <div class="field">
+          <span class="label">What is its job?</span>
+          <div id="pJob"></div>
+          <div id="pJobNote"></div>
+        </div>
+
         <label class="field"><span class="label">What is it protecting you from?</span>
           <textarea id="pProtects" rows="2" placeholder="Every part is protecting something, even the ones you dislike"></textarea></label>
         <label class="field"><span class="label">When does it show up?</span>
           <textarea id="pTrigger" rows="2" placeholder="The situation, the tone, the room"></textarea></label>
         <label class="field"><span class="label">How do you know it is here?</span>
           <textarea id="pCue" rows="2" placeholder="The signal in your body, or the sentence you catch yourself saying"></textarea></label>
+
+        <div id="partHistory"></div>
+
         <div class="nav-row">
           <button class="btn ghost" id="cancelPart">Cancel</button>
           <button class="btn primary" id="savePart"><svg class="ico"><use href="#i-check"/></svg> Save</button>
@@ -128,6 +183,7 @@
     <!-- ============ JOURNAL ============ -->
     <section class="view" id="view-journal">
       <div class="pad">
+        <div id="patterns"></div>
         <div id="journalList"></div>
         <div class="card soft" id="dataCard">
           <p class="sm"><strong>Your entries live on this device only.</strong> Clearing your browser data will erase them, so take a copy now and then.</p>
