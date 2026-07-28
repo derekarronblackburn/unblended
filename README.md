@@ -98,7 +98,62 @@ overwrites, matching entries on id and parts on name.
 - Light and dark, following the system by default, with a three-way manual
   toggle. `prefers-reduced-motion` shortens the breath and drops transitions.
 
-## Credit
+## No AI, and that is the point
 
-Internal Family Systems was developed by **Richard Schwartz**. This is a practice
-aid, built by someone doing the work, not by a clinician.
+Nothing you write is sent to a language model. There is no model, no API key, no
+inference of any kind. The prompts are fixed, written in advance, identical for
+everyone, and nothing you type is interpreted, scored, rewritten or summarised.
+The app does arithmetic on the numbers you tap and nothing else.
+
+Verifiable rather than promised:
+
+```sh
+grep -rE "fetch\(|XMLHttpRequest|WebSocket|sendBeacon" *.js *.html   # nothing
+grep -roE "https?://[^\"' )]+" *.js *.html *.css                     # one link, to a crisis-line directory
+ls node_modules                                                       # does not exist
+```
+
+Other apps in this space do use models and charge a subscription to cover the
+bill. That is a fair trade for anyone who wants it. This one made the opposite
+choice, which is also why it is free: there is no cost to pass on.
+
+## Deploying it
+
+Static files, so anything that serves a directory will do. For **GitHub Pages**:
+
+1. Create a public repo and push.
+2. Settings, Pages, Source: deploy from branch, `main`, `/ (root)`.
+3. It lands at `https://<user>.github.io/<repo>/`.
+
+Every path in the app is relative and the manifest uses `"start_url": "./"`, so
+it works from a subdirectory with no changes. `.nojekyll` is committed so Pages
+serves the files as-is.
+
+**On any change to the shell**, bump `CACHE` in `sw.js`. Miss that and installed
+copies keep serving the old version indefinitely.
+
+If you fork and deploy it, change `SOURCE` at the top of `app.js` to point at
+**your** repository. That is not politeness, it is the AGPL section 13
+requirement below.
+
+## License
+
+**GNU Affero General Public License v3.0 or later.** Full text in `LICENSE`.
+
+Chosen deliberately. AGPL is the copyleft that extends to hosted software: if you
+modify this and run it as a website, section 13 obliges you to offer your users
+the modified source. In practice that makes it very difficult to fork this into a
+closed, paid product, which is exactly what it exists as an alternative to.
+
+You are free to use, study, share and modify it. You are not free to take it
+private.
+
+## Credit and affiliation
+
+Internal Family Systems was developed by **Richard Schwartz**, and the IFS
+Institute trains and certifies practitioners in it.
+
+**This project is not affiliated with, endorsed by, reviewed by, or certified by
+the IFS Institute, Richard Schwartz, or any clinical body.** It is a practice aid
+built from publicly described material by someone doing the work, not by a
+clinician. It is not therapy, not a medical device, and not a crisis service.

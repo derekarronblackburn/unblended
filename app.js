@@ -1,4 +1,17 @@
 /* Unblended - an IFS unblending walkthrough.
+   Copyright (C) 2026 Derek Blackburn
+
+   This program is free software: you can redistribute it and/or modify it under
+   the terms of the GNU Affero General Public License as published by the Free
+   Software Foundation, either version 3 of the License, or (at your option) any
+   later version. It is distributed WITHOUT ANY WARRANTY; without even the
+   implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+   the GNU Affero General Public License in LICENSE for details.
+
+   AGPL section 13 requires that anyone interacting with this program over a
+   network be offered its source. That is what SOURCE below is for; if you fork
+   and deploy this, point it at YOUR repository, not this one.
+
    No dependencies, no network, no accounts. Everything lives in localStorage.
 
    The session follows Richard Schwartz's 6 Fs (Find, Focus, Flesh out, Feel
@@ -16,6 +29,9 @@
 'use strict';
 
 const KEY = 'unblended.v1';
+
+// Required by AGPL-3.0 section 13. Change this if you deploy a modified copy.
+const SOURCE = 'https://github.com/derekarronblackburn/unblended';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -153,11 +169,29 @@ const QUICK_KEYS = ['find', 'feel', 'fear', 'choose', 'name'];
 
 /* ------------------------------------------------------------------ learn */
 
+// One source of truth for the crisis text: it appears on the first-run screen,
+// in Learn, and when someone rates the moment as overwhelming.
+const CRISIS = `<p><strong>If you are in danger or thinking about harming yourself, this is not the right tool.</strong> Contact your local emergency number. In the US you can call or text <strong>988</strong>. Wherever you are, <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> lists free crisis lines by country.</p>`;
+
 const LEARN = [
   ['Is this a replacement for therapy?',
    `<strong>No, and it is not trying to be.</strong> This is a tool for the moment you are in, and for understanding yourself a bit better between sessions.
    <p>What it cannot do: know your history, notice the thing you are steering around, catch a pattern you cannot see, or be present when something opens up and you need another person there. A good therapist does all four. If you have access to one, this works best alongside them, not instead.</p>
-   <p>If you are in danger or thinking about harming yourself, contact your local emergency number, or in the US call or text <strong>988</strong>.</p>`],
+   ${CRISIS}`],
+
+  ['Is my writing being read by an AI?',
+   `<strong>No.</strong> Nothing you write is sent to a language model, here or anywhere else. There is no AI in this app at all.
+   <p>The prompts are fixed. They were written in advance, they are the same for everyone, and nothing you type is interpreted, scored, rewritten or summarised by anything. The app does arithmetic on the numbers you tap and nothing more.</p>
+   <p>Other apps in this space do use models, and charge a subscription to cover it. That is a fair trade if you want it. This one made the opposite choice, which is also why it costs nothing: there is no bill to pass on.</p>`],
+
+  ['Where does my writing go?',
+   `Nowhere. It is saved in your own browser's storage, on this device, and that is the entire system. There is no server to send it to, no account, no sign-in, no analytics, no tracking, and no third-party code of any kind.
+   <p>This is not a promise in a privacy policy, it is how the app is built. A handful of files, no dependencies, no network calls, and <a href="${SOURCE}" target="_blank" rel="noopener noreferrer">the whole source is public</a> so you do not have to take anyone's word for it.</p>
+   <p>The trade-off is real and you should know it: <strong>if you clear your browser data, your entries are gone.</strong> Nobody can recover them for you, because nobody else ever had them. Use Export in the Journal now and then.</p>`],
+
+  ['Is this affiliated with IFS or Richard Schwartz?',
+   `<strong>No.</strong> Internal Family Systems was developed by Richard Schwartz, and the IFS Institute trains and certifies practitioners in it. This app is not affiliated with, endorsed by, reviewed by, or certified by them or anyone else.
+   <p>It is a practice aid built by one person doing the work, from publicly described material. If it interests you, go to the source, and go to a trained practitioner if you can.</p>`],
 
   ['What is a part?',
    `A part is a piece of you with its own agenda, feelings and history. Not a metaphor and not a disorder: Internal Family Systems takes the ordinary experience of "part of me wants to go, part of me wants to stay" completely literally, and works with it.
@@ -277,7 +311,8 @@ function renderCheckin() {
   if (session.sevBefore === 5) {
     $('#maintenanceNote').innerHTML += `
       <div class="note warn">
-        <p>Overwhelming is a lot to carry alone. This can help you get some room, and it is not a substitute for a person. If you are in danger, contact your local emergency number, or in the US call or text <strong>988</strong>.</p>
+        <p>Overwhelming is a lot to carry alone. This can help you get some room, and it is not a substitute for a person.</p>
+        ${CRISIS}
       </div>`;
   }
 }
@@ -878,8 +913,16 @@ function renderLearn() {
   $('#learnBody').innerHTML = `
     <p class="lede">A short guide</p>
     ${LEARN.map(([q, a]) => `<details class="qa"><summary>${q}</summary><div class="qa-body">${a}</div></details>`).join('')}
-    <p class="foot">Everything you write stays in this browser. Nothing is uploaded, and there is no account.</p>`;
+    <p class="foot">
+      No AI, no server, no account, no tracking.<br>
+      Free software under the <a href="${SOURCE}/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU AGPL v3</a>,
+      which is what keeps it that way even if someone else runs it.<br>
+      <a href="${SOURCE}" target="_blank" rel="noopener noreferrer">Read or fork the source</a>
+    </p>`;
 }
+
+// Injected rather than duplicated in the markup, so the crisis text has one home.
+$('#introCrisis').insertAdjacentHTML('beforeend', CRISIS);
 
 /* ------------------------------------------------------------------ wiring */
 
