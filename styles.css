@@ -115,6 +115,9 @@ main { flex: 1; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
 
 .pad { padding: 1rem 1.15rem 6.5rem; }
+/* The 6.5rem tail clears the fixed tab bar. On views that hide it, that is
+   104px of dead space shoving the call to action below the fold. */
+#view-intro .pad, #view-breath .pad, #view-checkin .pad, #view-session .pad { padding-bottom: 1.75rem; }
 .center { text-align: center; }
 
 /* ---------- type ---------- */
@@ -212,21 +215,43 @@ input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 
 .progress i.done { background: var(--accent); }
 
 /* ---------- breath ---------- */
-.breath-wrap { display: grid; place-items: center; padding: 1.5rem 0 1rem; }
+.breath-wrap { display: grid; place-items: center; padding: 1.6rem 0 1.1rem; }
 .breath {
-  width: 11rem; height: 11rem; border-radius: 50%;
+  position: relative;
+  width: 12.5rem; height: 12.5rem; border-radius: 50%;
   display: grid; place-items: center;
-  background: radial-gradient(circle at 50% 45%, var(--accent-bg), var(--sage-bg));
-  color: var(--ink-soft); font-size: 1.05rem; font-weight: 600;
-  transform: scale(.72);
-  transition: transform 4s cubic-bezier(.4,0,.4,1);
+  background: radial-gradient(circle at 50% 42%, var(--accent-bg), var(--sage-bg));
+  color: var(--ink-soft); font-size: 1.15rem; font-weight: 600;
+  /* Wider travel than v1 (.5 to 1 rather than .72 to 1) so the rhythm is
+     unmistakable, with a slow symmetric ease so it still reads as calm. */
+  transform: scale(.5);
+  opacity: .7;
+  transition: transform 4s cubic-bezier(.37,0,.35,1), opacity 4s ease;
 }
-.breath.inhale { transform: scale(1); }
+.breath.inhale { transform: scale(1); opacity: 1; }
+
+/* A faint ring that opens with the inhale. Adds presence without adding noise. */
+.breath::after {
+  content: ""; position: absolute; inset: -9%;
+  border-radius: 50%; border: 1px solid var(--accent);
+  opacity: 0; transform: scale(.8);
+  transition: inherit;
+}
+.breath.inhale::after { opacity: .3; transform: scale(1); }
+
+.breath span { display: block; }
+.breath.counting { transform: scale(.78); opacity: 1; }
+.breath.counting::after { opacity: .18; transform: scale(.95); }
+.breath.counting span { font-size: 3.1rem; font-weight: 700; color: var(--accent); }
+@keyframes popin { from { transform: scale(1.45); opacity: .15; } to { transform: scale(1); opacity: 1; } }
+.breath span.pop { animation: popin .42s cubic-bezier(.2,.7,.3,1) both; }
+
 .counter { color: var(--ink-faint); font-size: .85rem; }
 
 @media (prefers-reduced-motion: reduce) {
   .view.is-active { animation: none; }
   .breath { transition-duration: .01s; }
+  .breath span.pop { animation: none; }
   .btn:active { transform: none; }
 }
 

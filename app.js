@@ -173,6 +173,10 @@ const QUICK_KEYS = ['find', 'feel', 'fear', 'choose', 'name'];
 // in Learn, and when someone rates the moment as overwhelming.
 const CRISIS = `<p><strong>If you are in danger or thinking about harming yourself, this is not the right tool.</strong> Contact your local emergency number. In the US you can call or text <strong>988</strong>. Wherever you are, <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> lists free crisis lines by country.</p>`;
 
+// The first-run screen has to fit above the fold on a phone, so it carries the
+// compact version. The full text is one tap away in Learn.
+const CRISIS_SHORT = `<p>In crisis? Your local emergency number, <strong>988</strong> in the US, or <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> by country.</p>`;
+
 const LEARN = [
   ['Is this a replacement for therapy?',
    `<strong>No, and it is not trying to be.</strong> This is a tool for the moment you are in, and for understanding yourself a bit better between sessions.
@@ -321,6 +325,14 @@ function renderCheckin() {
 
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
+// Re-triggering a CSS animation needs the class removed and a forced reflow;
+// changing textContent alone will not restart it.
+function pop(el) {
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+}
+
 async function runBreath() {
   breathStop = false;
   show('breath');
@@ -328,6 +340,26 @@ async function runBreath() {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const IN = reduce ? 1600 : 4000, OUT = reduce ? 2400 : 6000;
   const rounds = session.quick ? 2 : 4;
+
+  // 3, 2, 1 first, so the opening inhale does not begin while you are still
+  // reading the screen. Landing mid-instruction is what made it feel abrupt.
+  circle.style.transitionDuration = '0ms';
+  circle.classList.remove('inhale');
+  circle.classList.add('counting');
+  count.textContent = 'Get comfortable';
+  for (const n of [3, 2, 1]) {
+    if (breathStop) return;
+    word.textContent = n;
+    if (!reduce) pop(word);
+    await wait(reduce ? 400 : 780);
+  }
+  // Ease down to the resting size rather than snapping, or the first inhale
+  // starts from a visible jump.
+  circle.classList.remove('counting');
+  word.classList.remove('pop');
+  circle.style.transitionDuration = reduce ? '0ms' : '600ms';
+  await wait(reduce ? 0 : 620);
+  if (breathStop) return;
 
   for (let r = 1; r <= rounds; r++) {
     if (breathStop) return;
@@ -347,7 +379,9 @@ async function runBreath() {
 
 function endBreath() {
   breathStop = true;
-  $('#breathCircle').classList.remove('inhale');
+  const circle = $('#breathCircle');
+  circle.classList.remove('inhale', 'counting');
+  $('#breathWord').classList.remove('pop');
   renderStep();
   show('session');
 }
@@ -922,7 +956,7 @@ function renderLearn() {
 }
 
 // Injected rather than duplicated in the markup, so the crisis text has one home.
-$('#introCrisis').insertAdjacentHTML('beforeend', CRISIS);
+$('#introCrisis').insertAdjacentHTML('beforeend', CRISIS_SHORT);
 
 /* ------------------------------------------------------------------ wiring */
 
