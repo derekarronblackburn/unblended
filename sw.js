@@ -3,7 +3,7 @@
    nothing to sync: every entry lives in localStorage on the device. Bump CACHE
    on any shell change, or the old files keep being served. */
 
-const CACHE = 'unblended-v1';
+const CACHE = 'unblended-v2';
 const SHELL = [
   './',
   'index.html',
