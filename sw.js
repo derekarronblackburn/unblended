@@ -3,13 +3,16 @@
    nothing to sync: every entry lives in localStorage on the device. Bump CACHE
    on any shell change, or the old files keep being served. */
 
-const CACHE = 'unblended-v6';
+const CACHE = 'unblended-v7';
 const SHELL = [
   './',
   'index.html',
+  'privacy.html',
   'styles.css',
   'app.js',
   'icon.svg',
+  'icon-192.png',
+  'apple-touch-icon.png',
   'manifest.webmanifest'
 ];
 

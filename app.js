@@ -971,6 +971,7 @@ function renderLearn() {
       No AI, no server, no account, no tracking.<br>
       Free software under the <a href="${SOURCE}/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU AGPL v3</a>,
       which is what keeps it that way even if someone else runs it.<br>
+      <a href="privacy.html">Privacy policy</a> &nbsp;-&nbsp;
       <a href="${SOURCE}" target="_blank" rel="noopener noreferrer">Read or fork the source</a>
     </p>`;
 }
