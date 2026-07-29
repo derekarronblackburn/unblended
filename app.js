@@ -177,7 +177,27 @@ const CRISIS = `<p><strong>If you are in danger or thinking about harming yourse
 // compact version. The full text is one tap away in Learn.
 const CRISIS_SHORT = `<p>In crisis? Your local emergency number, <strong>988</strong> in the US, or <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> by country.</p>`;
 
+// What it is, what it is not, and where your writing goes. Shown on first run
+// and kept as the opening item in Learn, because a first-run screen that can
+// never be reopened is a screen most people will remember having seen and not
+// be able to find again.
+const ABOUT = `
+  <p class="sm">Unblended walks you through a short <strong>Internal Family Systems</strong> session: six questions, a few minutes, on the phone already in your hand. When a part of you has taken the wheel, the steps for getting some room are simple and almost impossible to recall in the moment. This holds them so you do not have to.</p>
+
+  <div class="note warn">
+    <p><strong>What it is not:</strong> a replacement for therapy. It cannot know your history, notice what you are steering around, or be there when something opens up. A therapist can.</p>
+    ${CRISIS_SHORT}
+  </div>
+
+  <ul class="facts">
+    <li><strong>No AI.</strong> Nothing you write is read by a model.</li>
+    <li><strong>No server, no account, no tracking.</strong></li>
+    <li><strong>Free.</strong> Saved in this browser only.</li>
+  </ul>`;
+
 const LEARN = [
+  ['What is this, and what is it not?', ABOUT],
+
   ['Is this a replacement for therapy?',
    `<strong>No, and it is not trying to be.</strong> This is a tool for the moment you are in, and for understanding yourself a bit better between sessions.
    <p>What it cannot do: know your history, notice the thing you are steering around, catch a pattern you cannot see, or be present when something opens up and you need another person there. A good therapist does all four. If you have access to one, this works best alongside them, not instead.</p>
@@ -955,8 +975,8 @@ function renderLearn() {
     </p>`;
 }
 
-// Injected rather than duplicated in the markup, so the crisis text has one home.
-$('#introCrisis').insertAdjacentHTML('beforeend', CRISIS_SHORT);
+// One copy of the text, rendered into the first-run screen and into Learn.
+$('#introBody').innerHTML = ABOUT;
 
 /* ------------------------------------------------------------------ wiring */
 
@@ -976,7 +996,11 @@ $('#themeBtn').onclick = () => {
 };
 
 $('#introOk').onclick = () => { db.settings.introSeen = true; save(); show('unblend'); };
-$('#whyLink').onclick = () => { renderLearn(); show('learn'); $('.qa').open = true; };
+$('#whyLink').onclick = () => {
+  renderLearn(); show('learn');
+  $('.qa').open = true;                       // the About item is first
+  $('.qa').scrollIntoView({ block: 'start', behavior: 'smooth' });
+};
 
 $('#startSession').onclick = () => newSession(false);
 $('#startQuick').onclick = () => newSession(true);
