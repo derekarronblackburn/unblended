@@ -9,8 +9,12 @@
    the GNU Affero General Public License in LICENSE for details.
 
    AGPL section 13 requires that anyone interacting with this program over a
-   network be offered its source. That is what SOURCE below is for; if you fork
-   and deploy this, point it at YOUR repository, not this one.
+   network be offered its source. The Learn tab in index.html carries that link;
+   if you fork and deploy this, point it at YOUR repository, not this one.
+
+   The guide prose lives in index.html as real markup rather than in here as
+   template strings, so that search engines can read it. A tool nobody can find
+   helps nobody.
 
    No dependencies, no network, no accounts. Everything lives in localStorage.
 
@@ -29,9 +33,6 @@
 'use strict';
 
 const KEY = 'unblended.v1';
-
-// Required by AGPL-3.0 section 13. Change this if you deploy a modified copy.
-const SOURCE = 'https://github.com/derekarronblackburn/unblended';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -169,89 +170,10 @@ const QUICK_KEYS = ['find', 'feel', 'fear', 'choose', 'name'];
 
 /* ------------------------------------------------------------------ learn */
 
-// One source of truth for the crisis text: it appears on the first-run screen,
-// in Learn, and when someone rates the moment as overwhelming.
-const CRISIS = `<p><strong>If you are in danger or thinking about harming yourself, this is not the right tool.</strong> Contact your local emergency number. In the US you can call or text <strong>988</strong>. Wherever you are, <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> lists free crisis lines by country.</p>`;
-
-// The first-run screen has to fit above the fold on a phone, so it carries the
-// compact version. The full text is one tap away in Learn.
-const CRISIS_SHORT = `<p>In crisis? Your local emergency number, <strong>988</strong> in the US, or <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> by country.</p>`;
-
-// What it is, what it is not, and where your writing goes. Shown on first run
-// and kept as the opening item in Learn, because a first-run screen that can
-// never be reopened is a screen most people will remember having seen and not
-// be able to find again.
-const ABOUT = `
-  <p class="sm">Unblended walks you through a short <strong>Internal Family Systems</strong> session: six questions, a few minutes, on the phone already in your hand. When a part of you has taken the wheel, the steps for getting some room are simple and almost impossible to recall in the moment. This holds them so you do not have to.</p>
-
-  <div class="note warn">
-    <p><strong>What it is not:</strong> a replacement for therapy. It cannot know your history, notice what you are steering around, or be there when something opens up. A therapist can.</p>
-    ${CRISIS_SHORT}
-  </div>
-
-  <ul class="facts">
-    <li><strong>No AI.</strong> Nothing you write is read by a model.</li>
-    <li><strong>No server, no account, no tracking.</strong></li>
-    <li><strong>Free.</strong> Saved in this browser only.</li>
-  </ul>`;
-
-const LEARN = [
-  ['What is this, and what is it not?', ABOUT],
-
-  ['Is this a replacement for therapy?',
-   `<strong>No, and it is not trying to be.</strong> This is a tool for the moment you are in, and for understanding yourself a bit better between sessions.
-   <p>What it cannot do: know your history, notice the thing you are steering around, catch a pattern you cannot see, or be present when something opens up and you need another person there. A good therapist does all four. If you have access to one, this works best alongside them, not instead.</p>
-   ${CRISIS}`],
-
-  ['Is my writing being read by an AI?',
-   `<strong>No.</strong> Nothing you write is sent to a language model, here or anywhere else. There is no AI in this app at all.
-   <p>The prompts are fixed. They were written in advance, they are the same for everyone, and nothing you type is interpreted, scored, rewritten or summarised by anything. The app does arithmetic on the numbers you tap and nothing more.</p>
-   <p>Other apps in this space do use models, and charge a subscription to cover it. That is a fair trade if you want it. This one made the opposite choice, which is also why it costs nothing: there is no bill to pass on.</p>`],
-
-  ['Where does my writing go?',
-   `Nowhere. It is saved in your own browser's storage, on this device, and that is the entire system. There is no server to send it to, no account, no sign-in, no analytics, no tracking, and no third-party code of any kind.
-   <p>This is not a promise in a privacy policy, it is how the app is built. A handful of files, no dependencies, no network calls, and <a href="${SOURCE}" target="_blank" rel="noopener noreferrer">the whole source is public</a> so you do not have to take anyone's word for it.</p>
-   <p>The trade-off is real and you should know it: <strong>if you clear your browser data, your entries are gone.</strong> Nobody can recover them for you, because nobody else ever had them. Use Export in the Journal now and then.</p>`],
-
-  ['Is this affiliated with IFS or Richard Schwartz?',
-   `<strong>No.</strong> Internal Family Systems was developed by Richard Schwartz, and the IFS Institute trains and certifies practitioners in it. This app is not affiliated with, endorsed by, reviewed by, or certified by them or anyone else.
-   <p>It is a practice aid built by one person doing the work, from publicly described material. If it interests you, go to the source, and go to a trained practitioner if you can.</p>`],
-
-  ['What is a part?',
-   `A part is a piece of you with its own agenda, feelings and history. Not a metaphor and not a disorder: Internal Family Systems takes the ordinary experience of "part of me wants to go, part of me wants to stay" completely literally, and works with it.
-   <p>Parts are not the problem. A part becomes a problem when it is stuck in an old job it took on a long time ago and never got released from.</p>`],
-
-  ['What is Self?',
-   `The thing underneath the parts. IFS says everyone has one and that it cannot be damaged, only obscured. You know it is present by how it feels: <strong>calm, curious, compassionate, clear, courageous, confident, creative, connected</strong>.
-   <p>You do not have to build Self. You unblend from whatever is covering it.</p>`],
-
-  ['What does blended mean?',
-   `Blended is when a part's feelings and beliefs are so completely yours that there is no gap. You do not think "a part of me is furious", you think <strong>"I am furious"</strong>, and you act from there.
-   <p>The tell is disproportion. When the size of your reaction does not match the size of what happened, the trigger is not the cause, and something older just got recruited.</p>`],
-
-  ['The three jobs',
-   `<p><strong>Managers</strong> run ahead of trouble. Planning, perfecting, pleasing, criticising you before anyone else can. Their job is that nothing bad gets close.</p>
-    <p><strong>Firefighters</strong> arrive after something breaks through. Numbing, scrolling, bingeing, raging, leaving. They are not reckless for its own sake; they are trying to end pain right now, at any cost.</p>
-    <p><strong>Exiles</strong> are the young parts carrying the hurt that the other two work around. Both kinds of protector exist because of them.</p>
-    <p>Managers and firefighters often loathe each other, which is why you can feel torn in half by two things you never chose.</p>`],
-
-  ['The move that actually works',
-   `Ask how <em>you</em> feel toward the part. Curious, warm or calm means Self is present and you can carry on.
-   <p>Irritated, frightened, or "I just want it gone" is not a failure. It means a <strong>second part</strong> has shown up and is now driving. So you turn and speak to that one: ask it for a little room, and promise you are not going to let the first part take over. Then check again.</p>
-   <p>That loop is unblending. Everything else here is scaffolding around it.</p>`],
-
-  ['Why sleep, food and movement are in here',
-   `Because they change the volume on everything else, and it is worth knowing that <em>before</em> you conclude something about your character.
-   <p>A part that feels unbearable on four hours of sleep and no lunch is often ordinary on eight and a proper meal. That is not a reason to dismiss it. It is a reason to be accurate about what you are measuring, and to fix the cheap thing first when the cheap thing is the problem.</p>`],
-
-  ['Why the walkthrough stops at protectors',
-   `It never sends you looking for an exile, on purpose. Going to the young, wounded parts is powerful, and it is the part of this work that can knock you flat when it happens without support.
-   <p>You can still label a part as an exile here, because knowing is useful. The prompts just will not take you further in. Protectors are where unguided practice belongs, and getting to know them well is not a consolation prize; it is most of the work.</p>`],
-
-  ['Where this comes from',
-   `Internal Family Systems was developed by <strong>Richard Schwartz</strong> in the 1980s. The session here follows his six Fs: Find, Focus, Flesh out, Feel toward, beFriend, and Fear.
-   <p>This app is a practice aid built by someone doing the work, not by a clinician. If it interests you, the source material is worth going to directly.</p>`]
-];
+// The prose lives in index.html so search engines can index it. JS reads the
+// two pieces it needs back out of the DOM, which keeps a single source without
+// hiding the content behind JavaScript.
+const CRISIS = $('#crisisSource') ? `<p>${$('#crisisSource').innerHTML}</p>` : '';
 
 /* ------------------------------------------------------------------ router */
 
@@ -963,21 +885,11 @@ function applyTheme() {
 
 function refreshHome() { $('#resumeCard').hidden = !db.draft; }
 
-function renderLearn() {
-  $('#learnBody').innerHTML = `
-    <p class="lede">A short guide</p>
-    ${LEARN.map(([q, a]) => `<details class="qa"><summary>${q}</summary><div class="qa-body">${a}</div></details>`).join('')}
-    <p class="foot">
-      No AI, no server, no account, no tracking.<br>
-      Free software under the <a href="${SOURCE}/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU AGPL v3</a>,
-      which is what keeps it that way even if someone else runs it.<br>
-      <a href="privacy.html">Privacy policy</a> &nbsp;-&nbsp;
-      <a href="${SOURCE}" target="_blank" rel="noopener noreferrer">Read or fork the source</a>
-    </p>`;
-}
-
 // One copy of the text, rendered into the first-run screen and into Learn.
-$('#introBody').innerHTML = ABOUT;
+$('#introBody').innerHTML = $('#aboutSource').innerHTML;
+// The clone carries #crisisSource with it, and two elements cannot share an id.
+const dupeCrisis = $('#introBody #crisisSource');
+if (dupeCrisis) dupeCrisis.removeAttribute('id');
 
 /* ------------------------------------------------------------------ wiring */
 
@@ -998,7 +910,7 @@ $('#themeBtn').onclick = () => {
 
 $('#introOk').onclick = () => { db.settings.introSeen = true; save(); show('unblend'); };
 $('#whyLink').onclick = () => {
-  renderLearn(); show('learn');
+  show('learn');
   $('.qa').open = true;                       // the About item is first
   $('.qa').scrollIntoView({ block: 'start', behavior: 'smooth' });
 };
@@ -1034,7 +946,6 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme
 
 applyTheme();
 refreshHome();
-renderLearn();
 renderParts();
 renderJournal();
 show(db.settings.introSeen ? 'unblend' : 'intro');

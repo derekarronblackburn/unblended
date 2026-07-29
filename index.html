@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#191614" media="(prefers-color-scheme: dark)">
-<meta name="description" content="A quiet, private walkthrough for Internal Family Systems unblending. A tool for the moment, not a replacement for therapy. Everything stays on your device.">
-<title>Unblended</title>
+<meta name="description" content="A free guided Internal Family Systems unblending exercise. Six steps to get some room from a part that has taken over. No AI, no account, no server: everything stays on your device.">
+<title>Unblended - a free IFS unblending exercise</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
@@ -204,8 +204,137 @@
     </section>
 
     <!-- ============ LEARN ============ -->
+    <!-- Written as real HTML rather than injected by JS, deliberately. This is
+         the only substantial prose on the site, so it is the only thing a search
+         engine can index, and a tool nobody can find helps nobody. It is also
+         the single source for the first-run screen, which clones #aboutSource. -->
     <section class="view" id="view-learn">
-      <div class="pad" id="learnBody"></div>
+      <div class="pad">
+        <h2 class="lede">A short guide to unblending</h2>
+
+        <details class="qa" open>
+          <summary>What is this, and what is it not?</summary>
+          <div class="qa-body" id="aboutSource">
+            <p class="sm">Unblended walks you through a short <strong>Internal Family Systems</strong> session: six questions, a few minutes, on the phone already in your hand. When a part of you has taken the wheel, the steps for getting some room are simple and almost impossible to recall in the moment. This holds them so you do not have to.</p>
+
+            <div class="note warn">
+              <p><strong>What it is not:</strong> a replacement for therapy. It cannot know your history, notice what you are steering around, or be there when something opens up. A therapist can.</p>
+              <p id="crisisSource">In crisis? Your local emergency number, 988 in the US, or <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> by country.</p>
+            </div>
+
+            <ul class="facts">
+              <li><strong>No AI.</strong> Nothing you write is read by a model.</li>
+              <li><strong>No server, no account, no tracking.</strong></li>
+              <li><strong>Free.</strong> Saved in this browser only.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>What is a part?</summary>
+          <div class="qa-body">
+            <p>A part is a piece of you with its own agenda, feelings and history. Not a metaphor and not a disorder: Internal Family Systems takes the ordinary experience of "part of me wants to go, part of me wants to stay" completely literally, and works with it.</p>
+            <p>Parts are not the problem. A part becomes a problem when it is stuck in an old job it took on a long time ago and never got released from.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>What is Self?</summary>
+          <div class="qa-body">
+            <p>The thing underneath the parts. IFS says everyone has one and that it cannot be damaged, only obscured. You know it is present by how it feels: <strong>calm, curious, compassionate, clear, courageous, confident, creative, connected</strong>.</p>
+            <p>You do not have to build Self. You unblend from whatever is covering it.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>What does blended mean?</summary>
+          <div class="qa-body">
+            <p>Blended is when a part's feelings and beliefs are so completely yours that there is no gap. You do not think "a part of me is furious", you think <strong>"I am furious"</strong>, and you act from there.</p>
+            <p>The tell is disproportion. When the size of your reaction does not match the size of what happened, the trigger is not the cause, and something older just got recruited.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Managers, firefighters and exiles: the three jobs</summary>
+          <div class="qa-body">
+            <p><strong>Managers</strong> run ahead of trouble. Planning, perfecting, pleasing, criticising you before anyone else can. Their job is that nothing bad gets close.</p>
+            <p><strong>Firefighters</strong> arrive after something breaks through. Numbing, scrolling, bingeing, raging, leaving. They are not reckless for its own sake; they are trying to end pain right now, at any cost.</p>
+            <p><strong>Exiles</strong> are the young parts carrying the hurt that the other two work around. Both kinds of protector exist because of them.</p>
+            <p>Managers and firefighters often loathe each other, which is why you can feel torn in half by two things you never chose.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>How to actually unblend from a part</summary>
+          <div class="qa-body">
+            <p>The session follows Richard Schwartz's six Fs: <strong>Find</strong> it in or around your body, <strong>Focus</strong> on it, <strong>Flesh it out</strong>, notice how you <strong>Feel toward</strong> it, <strong>beFriend</strong> it, and ask what it <strong>Fears</strong> would happen if it stopped.</p>
+            <p>The fourth one is the whole mechanism. Ask how <em>you</em> feel toward the part. Curious, warm or calm means Self is present and you can carry on.</p>
+            <p>Irritated, frightened, or "I just want it gone" is not a failure. It means a <strong>second part</strong> has shown up and is now driving. So you turn and speak to that one: ask it for a little room, and promise you are not going to let the first part take over. Then check again.</p>
+            <p>That loop is unblending. Everything else here is scaffolding around it.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Is my writing being read by an AI?</summary>
+          <div class="qa-body">
+            <p><strong>No.</strong> Nothing you write is sent to a language model, here or anywhere else. There is no AI in this app at all.</p>
+            <p>The prompts are fixed. They were written in advance, they are the same for everyone, and nothing you type is interpreted, scored, rewritten or summarised by anything. The app does arithmetic on the numbers you tap and nothing more.</p>
+            <p>Other apps in this space do use models, and charge a subscription to cover it. That is a fair trade if you want it. This one made the opposite choice, which is also why it costs nothing: there is no bill to pass on.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Where does my writing go?</summary>
+          <div class="qa-body">
+            <p>Nowhere. It is saved in your own browser's storage, on this device, and that is the entire system. There is no server to send it to, no account, no sign-in, no analytics, no tracking, and no third-party code of any kind.</p>
+            <p>This is not a promise in a privacy policy, it is how the app is built. A handful of files, no dependencies, no network calls, and <a href="https://github.com/derekarronblackburn/unblended">the whole source is public</a> so you do not have to take anyone's word for it. There is also a <a href="privacy.html">privacy policy</a>.</p>
+            <p>The trade-off is real and you should know it: <strong>if you clear your browser data, your entries are gone.</strong> Nobody can recover them for you, because nobody else ever had them. Use Export in the Journal now and then.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Why sleep, food and movement are in here</summary>
+          <div class="qa-body">
+            <p>Because they change the volume on everything else, and it is worth knowing that <em>before</em> you conclude something about your character.</p>
+            <p>A part that feels unbearable on four hours of sleep and no lunch is often ordinary on eight and a proper meal. That is not a reason to dismiss it. It is a reason to be accurate about what you are measuring, and to fix the cheap thing first when the cheap thing is the problem.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Why the walkthrough stops at protectors</summary>
+          <div class="qa-body">
+            <p>It never sends you looking for an exile, on purpose. Going to the young, wounded parts is powerful, and it is the part of this work that can knock you flat when it happens without support.</p>
+            <p>You can still label a part as an exile here, because knowing is useful. The prompts just will not take you further in. Protectors are where unguided practice belongs, and getting to know them well is not a consolation prize; it is most of the work.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Is this a replacement for therapy?</summary>
+          <div class="qa-body">
+            <p><strong>No, and it is not trying to be.</strong> This is a tool for the moment you are in, and for understanding yourself a bit better between sessions.</p>
+            <p>What it cannot do: know your history, notice the thing you are steering around, catch a pattern you cannot see, or be present when something opens up and you need another person there. A good therapist does all four. If you have access to one, this works best alongside them, not instead.</p>
+            <p><strong>If you are in danger or thinking about harming yourself, this is not the right tool.</strong> Contact your local emergency number. In the US you can call or text <strong>988</strong>. Wherever you are, <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a> lists free crisis lines by country.</p>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary>Is this affiliated with IFS or Richard Schwartz?</summary>
+          <div class="qa-body">
+            <p><strong>No.</strong> Internal Family Systems was developed by Richard Schwartz, and the IFS Institute trains and certifies practitioners in it. This app is not affiliated with, endorsed by, reviewed by, or certified by them or anyone else.</p>
+            <p>It is a practice aid built by one person doing the work, from publicly described material. If it interests you, go to the source, and go to a trained practitioner if you can.</p>
+          </div>
+        </details>
+
+        <p class="foot">
+          No AI, no server, no account, no tracking.<br>
+          Free software under the
+          <a href="https://github.com/derekarronblackburn/unblended/blob/main/LICENSE">GNU AGPL v3</a>,
+          which is what keeps it that way even if someone else runs it.<br>
+          <!-- AGPL section 13 requires offering source to network users. This link is that offer. -->
+          <a href="https://github.com/derekarronblackburn/unblended">Read or fork the source</a>
+          &middot; <a href="privacy.html">Privacy</a>
+        </p>
+      </div>
     </section>
 
   </main>
