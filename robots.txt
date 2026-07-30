@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://derekablackburn.com/unblended/sitemap.xml
+Sitemap: https://unblended.org/sitemap.xml
