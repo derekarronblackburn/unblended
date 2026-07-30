@@ -376,8 +376,8 @@ function renderFeelingCheck(host) {
       </div>` : ''}
     ${blended ? `
       <div class="note warn">
-        <p><strong>That is a second part talking.</strong> Nothing has gone wrong. The one that wants the first part gone is itself a part, and right now it is the one driving.</p>
-        <p>So turn to that one instead. Inwardly: <em>I can see you do not want this. Would you give me a little room? I am not going to let it take over.</em></p>
+        <p><strong>That is a reactive part talking.</strong> Nothing has gone wrong. Wanting the first part gone is itself a part — a reactive part — and right now it is the one driving.</p>
+        <p>So turn to the reactive part instead. Inwardly: <em>I can see you do not want this. Would you give me a little room? I am not going to let the first part take over.</em></p>
         <p>Wait a moment, then ask again: how do you feel toward the first part now?</p>
       </div>` : ''}`;
 

@@ -40,12 +40,12 @@ step because arriving matters more than starting fast.
 The question is not how the part feels. It is how **you** feel toward the part.
 
 - Curious, warm, or calm means Self is present, and you can carry on.
-- Irritated, frightened, or "I want it gone" means a **second part** has arrived
+- Irritated, frightened, or "I want it gone" means a **reactive part** has arrived
   and is now driving.
 
-In the second case the app does not push you forward. It turns you toward the new
-part and gives you the ask: *would you give me a little room, I am not going to
-let it take over*. Then it re-asks. That loop is unblending, and everything else
+In the second case the app does not push you forward. It turns you toward the
+reactive part and gives you the ask: *would you give me a little room, I am not
+going to let the first part take over*. Then it re-asks. That loop is unblending, and everything else
 here is scaffolding around it.
 
 ## Deliberate limits
