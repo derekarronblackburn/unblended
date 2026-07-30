@@ -819,7 +819,19 @@ function openEntry(id, back) {
 /* ------------------------------------------------------------------ data io */
 
 function exportData() {
-  const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+  // The file gets human-readable companions to the epoch timestamps, in the
+  // exporter's timezone. Display only: the stored db never holds them, and
+  // import strips them, so the epoch fields stay the single source of truth.
+  const local = ts => new Date(ts).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  const stamp = o => Object.assign({}, o,
+    o.created ? { createdLocal: local(o.created) } : null,
+    o.updated ? { updatedLocal: local(o.updated) } : null);
+  const out = Object.assign({}, db, {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    parts: db.parts.map(stamp),
+    entries: db.entries.map(stamp)
+  });
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `unblended-${new Date().toISOString().slice(0, 10)}.json`;
@@ -833,10 +845,11 @@ function importData(file) {
     try {
       const incoming = JSON.parse(fr.result);
       if (!incoming || !Array.isArray(incoming.entries) || !Array.isArray(incoming.parts)) throw new Error('shape');
+      const strip = o => { delete o.createdLocal; delete o.updatedLocal; return o; };
       const seen = new Set(db.entries.map(e => e.id));
-      incoming.entries.forEach(e => { if (!seen.has(e.id)) db.entries.push(Object.assign({ title: titleFor(e) }, e)); });
+      incoming.entries.forEach(e => { if (!seen.has(e.id)) db.entries.push(strip(Object.assign({ title: titleFor(e) }, e))); });
       const names = new Set(db.parts.map(p => p.name.toLowerCase()));
-      incoming.parts.forEach(p => { if (!names.has((p.name || '').toLowerCase())) db.parts.push(p); });
+      incoming.parts.forEach(p => { if (!names.has((p.name || '').toLowerCase())) db.parts.push(strip(p)); });
       db.entries.sort((a, b) => b.created - a.created);
       save(); renderJournal(); renderParts();
       toast('Merged in.');
