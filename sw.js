@@ -3,7 +3,7 @@
    nothing to sync: every entry lives in localStorage on the device. Bump CACHE
    on any shell change, or the old files keep being served. */
 
-const CACHE = 'unblended-v12';
+const CACHE = 'unblended-v13';
 const SHELL = [
   './',
   'index.html',
@@ -13,7 +13,9 @@ const SHELL = [
   'icon.svg',
   'icon-192.png',
   'apple-touch-icon.png',
-  'manifest.webmanifest'
+  'manifest.webmanifest',
+  'fonts/newsreader-latin.woff2',
+  'fonts/newsreader-latin-italic.woff2'
 ];
 
 self.addEventListener('install', e => {

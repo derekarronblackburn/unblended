@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#191614" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f0ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191714" media="(prefers-color-scheme: dark)">
 <meta name="description" content="A free guided Internal Family Systems unblending exercise. Six steps to get some room from a part that has taken over. No AI, no account, no server: everything stays on your device.">
 <title>Unblended - a free IFS unblending exercise</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -23,22 +23,12 @@
 <body>
 
 <svg style="display:none" aria-hidden="true">
-  <symbol id="i-unblend" viewBox="0 0 24 24"><circle cx="9" cy="12" r="5.5"/><circle cx="17" cy="12" r="3"/></symbol>
-  <symbol id="i-parts" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2"/><circle cx="6.5" cy="16" r="3.2"/><circle cx="17.5" cy="16" r="3.2"/></symbol>
-  <symbol id="i-journal" viewBox="0 0 24 24"><path d="M5 4.5h11a2 2 0 0 1 2 2v13H7a2 2 0 0 1-2-2z"/><path d="M18 19.5H7a2 2 0 0 0 0 4h11"/><path d="M9 9h6M9 12.5h6"/></symbol>
-  <symbol id="i-learn" viewBox="0 0 24 24"><path d="M12 3.5a5.5 5.5 0 0 0-3.2 9.98c.5.36.8.93.8 1.55v.47h4.8v-.47c0-.62.3-1.19.8-1.55A5.5 5.5 0 0 0 12 3.5Z"/><path d="M10.2 19h3.6M10.6 21.2h2.8"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5"/></symbol>
   <symbol id="i-next" viewBox="0 0 24 24"><path d="M9.5 5.5 16 12l-6.5 6.5"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8a1.3 1.3 0 0 1 1.3-1.3h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7"/><path d="M6.8 6.5 7.7 20a1.5 1.5 0 0 0 1.5 1.4h5.6a1.5 1.5 0 0 0 1.5-1.4l.9-13.5"/></symbol>
-  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></symbol>
-  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8 12 3.5 16.5 8"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4M18.7 18.7l-1.4-1.4M6.7 6.7 5.3 5.3"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2Z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 9.8 17 19 6.5"/></symbol>
-  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4.5 8 4.5 14.5A5.5 5.5 0 0 0 10 20C16.5 20 20 14 20 4Z"/><path d="M16 8 7 17"/></symbol>
-  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 2.5 4.5 13.5h6L10 21.5l9.5-11.5h-6.5z"/></symbol>
-  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.8 4.8 5.6v6.1c0 4.4 3 8.1 7.2 9.5 4.2-1.4 7.2-5.1 7.2-9.5V5.6z"/></symbol>
 </svg>
 
 <div class="app">
@@ -65,12 +55,8 @@
     <section class="view" id="view-unblend">
       <div class="pad">
         <p class="lede">Something is loud right now. Let's make a little room around it.</p>
-        <button class="btn primary big" id="startSession">
-          <svg class="ico"><use href="#i-leaf"/></svg> Begin
-        </button>
-        <button class="btn wide" id="startQuick">
-          <svg class="ico"><use href="#i-bolt"/></svg> Short version, about two minutes
-        </button>
+        <button class="btn primary big" id="startSession">Begin</button>
+        <button class="btn wide" id="startQuick">Short version, about two minutes</button>
         <p class="muted sm center" style="margin-top:.7rem">Six steps or four. You can stop anywhere, and nothing leaves this device.</p>
 
         <div class="card soft" id="resumeCard" hidden>
@@ -149,7 +135,7 @@
       <div class="pad">
         <p class="muted sm">The ones you have met. Naming a part is most of the work; next time it shows up you recognise it instead of becoming it.</p>
         <div id="partsList"></div>
-        <button class="btn wide" id="addPart"><svg class="ico"><use href="#i-plus"/></svg> Add a part</button>
+        <button class="btn wide" id="addPart">Add a part</button>
       </div>
     </section>
 
@@ -191,8 +177,8 @@
         <div class="card soft" id="dataCard">
           <p class="sm"><strong>Your entries live on this device only.</strong> Clearing your browser data will erase them, so take a copy now and then.</p>
           <div class="row">
-            <button class="btn sm" id="exportBtn"><svg class="ico"><use href="#i-download"/></svg> Export</button>
-            <button class="btn sm" id="importBtn"><svg class="ico"><use href="#i-upload"/></svg> Import</button>
+            <button class="btn sm" id="exportBtn">Export</button>
+            <button class="btn sm" id="importBtn">Import</button>
             <input type="file" id="importFile" accept="application/json" hidden>
           </div>
         </div>
@@ -343,10 +329,10 @@
   </main>
 
   <nav class="tabbar" id="tabbar">
-    <button class="tab is-active" data-tab="unblend"><svg class="ico"><use href="#i-unblend"/></svg><span>Unblend</span></button>
-    <button class="tab" data-tab="parts"><svg class="ico"><use href="#i-parts"/></svg><span>Parts</span></button>
-    <button class="tab" data-tab="journal"><svg class="ico"><use href="#i-journal"/></svg><span>Journal</span></button>
-    <button class="tab" data-tab="learn"><svg class="ico"><use href="#i-learn"/></svg><span>Learn</span></button>
+    <button class="tab is-active" data-tab="unblend"><span>Unblend</span></button>
+    <button class="tab" data-tab="parts"><span>Parts</span></button>
+    <button class="tab" data-tab="journal"><span>Journal</span></button>
+    <button class="tab" data-tab="learn"><span>Learn</span></button>
   </nav>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

@@ -188,6 +188,7 @@ const TABS = {
   parts: 'parts', 'part-edit': 'parts', journal: 'journal', entry: 'journal', learn: 'learn'
 };
 const CHROMELESS = ['intro', 'checkin', 'session', 'breath'];
+const BARE = ['checkin', 'session', 'breath'];   // no top bar at all; intro keeps its wordmark
 
 let view = 'unblend';
 let backTo = null;
@@ -200,6 +201,7 @@ function show(name, opts = {}) {
   backTo = opts.back || null;
   $('#backBtn').hidden = !backTo;
   $('#tabbar').hidden = CHROMELESS.includes(name);
+  $('.topbar').hidden = BARE.includes(name);
   window.scrollTo(0, 0);
 }
 
@@ -368,7 +370,7 @@ function renderFeelingCheck(host) {
   host.innerHTML = `
     <div class="chips" id="feelRow">
       ${[...FEELINGS_OPEN, ...FEELINGS_BLENDED].map(f =>
-        `<button class="chip ${f === chosen ? 'on' : ''}" data-feel="${f}">${f}</button>`).join('')}
+        `<button class="chip ${f === chosen ? (FEELINGS_BLENDED.includes(f) ? 'on warn' : 'on') : ''}" data-feel="${f}">${f}</button>`).join('')}
     </div>
     ${chosen && !blended ? `
       <div class="note">
@@ -954,7 +956,10 @@ $('#exportBtn').onclick = exportData;
 $('#importBtn').onclick = () => $('#importFile').click();
 $('#importFile').onchange = e => { if (e.target.files[0]) importData(e.target.files[0]); e.target.value = ''; };
 
-addEventListener('scroll', () => $('.topbar').classList.toggle('scrolled', scrollY > 4), { passive: true });
+addEventListener('scroll', () => {
+  const bar = $('.topbar');
+  if (!bar.hidden) bar.classList.toggle('scrolled', scrollY > 4);
+}, { passive: true });
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 
 applyTheme();

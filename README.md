@@ -93,12 +93,17 @@ overwrites, matching entries on id and parts on name.
 ## Design notes
 
 - Mobile first, capped at 30rem and centred on anything wider.
-- Bottom tab bar, everything inside thumb reach, safe-area insets respected.
-- Warm clay and sage on paper. Friendly, deliberately not cheerful; the app is
-  used on bad days and should not be chirpy at someone having one.
-- No emoji anywhere. Icons are inline stroke SVG in a symbol sprite.
+- Reads as a page, not a product: hairlines and ruled bands instead of cards
+  and pills, fields are underlines, and the footer nav is three words - the
+  places you are not. Session, check-in and breath run chromeless.
+- Newsreader (self-hosted, no font CDN) on warm paper. One sage accent for Self
+  and progress, one clay accent reserved for the reactive-part branch and
+  louder-than-before. Deliberately not cheerful; the app is used on bad days
+  and should not be chirpy at someone having one.
+- No emoji anywhere. The only icons left are the theme toggle and the back and
+  month chevrons; one 11s breath cycle is the only ambient motion.
 - Light and dark, following the system by default, with a three-way manual
-  toggle. `prefers-reduced-motion` shortens the breath and drops transitions.
+  toggle. `prefers-reduced-motion` shortens the breath and stops the rest.
 
 ## No AI, and that is the point
 

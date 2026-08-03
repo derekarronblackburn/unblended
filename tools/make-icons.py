@@ -21,9 +21,9 @@ from pathlib import Path
 OUT = Path(__file__).resolve().parent.parent
 
 # Matches icon.svg exactly, in its 512 unit viewBox.
-BG = (0xFA, 0xF6, 0xF1)
-CLAY = (0xB5, 0x67, 0x3A)
-SAGE = (0x5F, 0x84, 0x69)
+BG = (0xF3, 0xF0, 0xEA)
+CLAY = (0x9A, 0x6A, 0x4C)
+SAGE = (0x7A, 0x8A, 0x74)
 VB = 512.0
 CORNER = 112.0
 RING_A = (205.0, 256.0, 118.0, 26.0)   # cx, cy, r, stroke
