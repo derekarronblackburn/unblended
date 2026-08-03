@@ -94,8 +94,9 @@ overwrites, matching entries on id and parts on name.
 
 - Mobile first, capped at 30rem and centred on anything wider.
 - Reads as a page, not a product: hairlines and ruled bands instead of cards
-  and pills, fields are underlines, and the footer nav is three words - the
-  places you are not. Session, check-in and breath run chromeless.
+  and pills, fields are underlines, and the footer nav is four quiet words with
+  a sage underline marking where you are. Session, check-in and breath run
+  chromeless.
 - Newsreader (self-hosted, no font CDN) on warm paper. One sage accent for Self
   and progress, one clay accent reserved for the reactive-part branch and
   louder-than-before. Deliberately not cheerful; the app is used on bad days
